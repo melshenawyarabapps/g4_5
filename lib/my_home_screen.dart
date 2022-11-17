@@ -1,68 +1,44 @@
-import 'package:first_12/answer.dart';
+import 'package:first_12/answers.dart';
 import 'package:first_12/my_provider.dart';
 import 'package:first_12/question.dart';
+import 'package:first_12/result.dart';
+import 'package:first_12/stsrt_quiz.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class MyHomeScreen extends StatefulWidget {
+class MyHomeScreen extends StatelessWidget {
   const MyHomeScreen({Key? key}) : super(key: key);
 
-  @override
-  State<MyHomeScreen> createState() => _MyHomeScreenState();
-}
-
-class _MyHomeScreenState extends State<MyHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/lamp.jpg',
-                height: 120,
-                width: 80,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              if (Provider.of<MyProvider>(context).index <
-                  Provider.of<MyProvider>(context).answers.length)
-                Question(
-                  question: Provider.of<MyProvider>(context).question[Provider.of<MyProvider>(context).index],
+        child: Consumer<MyProvider>(
+          builder: (ctx, provider, _) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/lamp.jpg',
+                  height: 120,
+                  width: 80,
                 ),
-              if (Provider.of<MyProvider>(context).index < Provider.of<MyProvider>(context).answers.length)
-                for (int i = 0; i < Provider.of<MyProvider>(context).answers[Provider.of<MyProvider>(context).index].length; i++)
-                  Answer(
-                    answer: Provider.of<MyProvider>(context).answers[Provider.of<MyProvider>(context).index][i]['text'] as String,
-                    fun: () {
-                      Provider.of<MyProvider>(context,listen: false).changeScore(
-                        score: Provider.of<MyProvider>(context,listen: false).answers[Provider.of<MyProvider>(context,listen: false).index][i]['score'],
-                      );
-                      Provider.of<MyProvider>(context,listen: false).changeIndex();
-                    },
-                  ),
-              if (Provider.of<MyProvider>(context).index == Provider.of<MyProvider>(context).answers.length) Text('Your score is : ${Provider.of<MyProvider>(context).score}'),
-              if (Provider.of<MyProvider>(context).index == Provider.of<MyProvider>(context).answers.length)
-                Answer(
-                  answer: 'Restart',
-                  fun: () {
-                    Provider.of<MyProvider>(context,listen: false).restartApp();
-                  },
+                SizedBox(
+                  height: 20,
                 ),
-            ],
-          ),
+                if (provider.index == -1) StartQuiz(),
+                if (provider.index >= 0 &&
+                    provider.index < provider.questions.length)
+                  Question(),
+                if (provider.index >= 0 &&
+                    provider.index < provider.questions.length)
+                  Answers(),
+                if (provider.index == provider.questions.length) Result(),
+              ],
+            );
+          },
         ),
       ),
     );
   }
 }
-
-/*
-
-Provider.of<MyProvider>(context).
-
- */

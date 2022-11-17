@@ -1,78 +1,68 @@
 import 'package:flutter/material.dart';
 
-class MyProvider extends ChangeNotifier{
+class MyProvider extends ChangeNotifier {
+  int index = -1;
+  int score = 0;
 
-  List<String> question = [
-    'question1',
-    'question2',
-    'question3',
-  ];
-
+  List<String> questions = ['Question 1 ', 'Question 2 ', 'Question 3 '];
   List<List<Map<String, dynamic>>> answers = [
     [
       {
-        'text': 'answer1 1',
+        'answer': 'Answer 1',
         'score': 10,
       },
       {
-        'text': 'answer1 2',
+        'answer': 'Answer 2',
         'score': 0,
       },
       {
-        'text': 'answer1 3',
+        'answer': 'Answer 3',
         'score': 0,
       },
       {
-        'text': 'answer1 4',
+        'answer': 'Answer 4',
         'score': 0,
-      }
+      },
     ],
     [
       {
-        'text': 'answer2 1',
-        'score': 0,
-      },
-      {
-        'text': 'answer2 2',
+        'answer': 'Answer 1',
         'score': 10,
       },
       {
-        'text': 'answer2 3',
+        'answer': 'Answer 2',
         'score': 0,
-      }
+      },
+      {
+        'answer': 'Answer 3',
+        'score': 0,
+      },
     ],
     [
       {
-        'text': 'answer3 1',
+        'answer': 'Answer 1',
         'score': 10,
       },
       {
-        'text': 'answer3 2',
+        'answer': 'Answer 2',
         'score': 0,
-      }
+      },
     ],
   ];
 
-  int index = 0;
-
-  int score = 0;
-
-  changeScore({
-    required int score,
-  }) {
-    this.score += score;
-    notifyListeners();
-  }
-
-  changeIndex() {
-      index++;
-      notifyListeners();
-  }
-
-  restartApp() {
-    index = 0;
+  reStart(){
+    index =0;
     score = 0;
     notifyListeners();
   }
 
+  changeIndex() {
+    index++;
+    notifyListeners();
+  }
+
+  changeScore({required int score}) {
+    this.score += score;
+    notifyListeners();
+  }
 }
